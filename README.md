@@ -1,0 +1,1 @@
+# pydocstyle-gitlab-code-quality
