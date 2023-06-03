@@ -6,14 +6,15 @@ build-backend = "setuptools.build_meta"
 name = "pydocstyle-gitlab-code-quality"
 version = "0.0.1"
 authors = [
-  { name = "Aleksander Kluczka", email = "alagaesia.vrael@gmail.com" },
+  { name = "Aleksander Kluczka", email = "aleksander.kluczka@gmail.com" },
 ]
 description = "Simple script to generate gitlab code quality report from output of pydocstyle."
 readme = "README.md"
 requires-python = ">=3.7"
-license = { file = "LICENSE.md" }
+license = { text = "MIT" }
 classifiers = [
     "Development Status :: 3 - Alpha",
+    "Environment :: Console",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
@@ -28,5 +29,31 @@ classifiers = [
 "Homepage" = "https://github.com/vis4rd/pydocstyle-gitlab-code-quality"
 "Bug Tracker" = "https://github.com/vis4rd/pydocstyle-gitlab-code-quality/issues"
 
-[project.entry-points."pydocstyle_gitlab_code_quality"]
-cli = "pydocstyle_gitlab_code_quality:main"
+[project.scripts]
+pydocstyle-gitlab-code-quality = "pydocstyle_gitlab_code_quality:main"
+
+[tool.black]
+line-length = 100
+
+[tool.isort]
+profile = "black"
+skip = "__init__.py"
+
+[tool.mypy]
+ignore_missing_imports = true
+show_column_numbers = true
+pretty = true
+disallow_untyped_defs = true
+
+[tool.pylint]
+max-line-length = 100
+disable = [
+    "C0103",  # not snake_case naming style
+    "C0114",  # missing module docstring
+    "C0115",  # missing class docstring
+    "C0116",  # missing method docstring
+    "R0902",  # too many instance attributes
+    "R0903",  # too few public methods
+    "W0102"   # dangerous default value of an argument
+]
+ignore = ["__init__.py"]

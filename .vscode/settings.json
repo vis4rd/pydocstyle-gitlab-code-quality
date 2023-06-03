@@ -1,0 +1,30 @@
+{
+    "[jsonc]": {
+        "editor.formatOnSave": false,
+    },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": true
+        },
+        "editor.defaultFormatter": "ms-python.black-formatter",
+        "editor.formatOnSave": true,
+    },
+    "files.eol": "\n",
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "files.trimFinalNewlines": true,
+
+    "python.analysis.typeCheckingMode": "basic",
+    "python.languageServer": "Pylance",
+
+    "python.linting.mypyEnabled": true,
+    "python.linting.pylintEnabled": true,
+
+    "black-formatter.args": [ "--config", "pyproject.toml" ],
+    "isort.args": [ "--settings-file", "pyproject.toml" ],
+    "pylint.args": [ "--rcfile", "pyproject.toml" ],
+    "python.linting.mypyArgs": [ "--config-file", "pyproject.toml" ],
+
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": false,
+}

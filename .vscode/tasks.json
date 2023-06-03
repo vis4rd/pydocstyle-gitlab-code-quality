@@ -1,0 +1,53 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Clean build artifacts",
+            "type": "shell",
+            "command": [
+                "rm -r dist/*;",
+                "rm -r *.egg-info;"
+            ],
+            "hide": true,
+            "presentation": {
+                "echo": false,
+                "panel": "dedicated",
+                "focus": false,
+                "clear": true,
+                "reveal": "never"
+            }
+        },
+        {
+            "label": "Build package",
+            "type": "shell",
+            "command": [
+                "python -m build;"
+            ],
+            "group": "build",
+            "dependsOn": [
+                "Clean build artifacts"
+            ],
+            "presentation": {
+                "echo": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true,
+                "reveal": "silent"
+            }
+        },
+        {
+            "label": "Publish to TestPyPI",
+            "type": "shell",
+            "command": [
+                "python -m twine upload --repository testpypi dist/*;"
+            ],
+            "presentation": {
+                "echo": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true,
+                "reveal": "silent"
+            }
+        }
+    ]
+}
