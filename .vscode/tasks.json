@@ -4,10 +4,21 @@
         {
             "label": "Clean build artifacts",
             "type": "shell",
-            "command": [
-                "rm -r dist/*;",
-                "rm -r *.egg-info;"
-            ],
+            "linux": {
+                "command": [
+                    "rm -r dist/* 2> /dev/null;",
+                    "rm -r *.egg-info 2> /dev/null;",
+                    "echo '' > /dev/null;"  // continue running even if rm fails
+                ]
+            },
+            "windows": {
+                // It is assumed that VSCode uses default terminal shell for Windows - Powershell
+                "command": [
+                    "rm -r dist/* 2> $null;",
+                    "rm -r *.egg-info 2> $null;",
+                    "echo '' > $null"  // continue running even if rm fails
+                ]
+            },
             "hide": true,
             "presentation": {
                 "echo": false,
@@ -40,6 +51,20 @@
             "type": "shell",
             "command": [
                 "python -m twine upload --repository testpypi dist/*;"
+            ],
+            "presentation": {
+                "echo": false,
+                "panel": "dedicated",
+                "showReuseMessage": false,
+                "clear": true,
+                "reveal": "silent"
+            }
+        },
+        {
+            "label": "Publish to PyPI",
+            "type": "shell",
+            "command": [
+                "python -m twine upload --repository pypi dist/*;"
             ],
             "presentation": {
                 "echo": false,
