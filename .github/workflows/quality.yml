@@ -9,7 +9,7 @@ on:
 
 jobs:
   pylint:
-    name: Python ${{ matrix.python_version }} - pylint check
+    name: Pylint - Python ${{ matrix.python_version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -24,7 +24,7 @@ jobs:
         run: |
           pylint --output-format=colorized $(git ls-files '*.py')
   mypy:
-    name: Python ${{ matrix.python_version }} - mypy check
+    name: Mypy - Python ${{ matrix.python_version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -39,7 +39,7 @@ jobs:
         run: |
           mypy --config-file pyproject.toml .
   isort:
-    name: Python ${{ matrix.python_version }} - isort check
+    name: Isort ${{ matrix.python_version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -54,7 +54,7 @@ jobs:
         run: |
           isort --settings-file pyproject.toml --check --diff --color .
   black:
-    name: Python ${{ matrix.python_version }} - black check
+    name: Black ${{ matrix.python_version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
