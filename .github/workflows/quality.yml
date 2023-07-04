@@ -1,0 +1,38 @@
+name: Quality
+
+on:
+  pull_request:
+    paths:
+      - 'pydocstyle_gitlab_code_quality/**'
+      - 'ci_requirements.txt'
+      - 'pyproject.toml'
+
+jobs:
+  quality:
+    name: Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: .github/actions/install_dependencies@main
+        with:
+          python_version: 3.11
+    # - uses: actions/checkout@v3
+    # - name: Set up Python 3.11
+    #   uses: actions/setup-python@v3
+    #   with:
+    #     python-version: 3.11
+    # - name: Install dependencies
+    #   run: |
+    #     python -m pip install --upgrade pip
+    #     pip install -r ci_requirements.txt
+      - name: Run pylint
+        run: |
+          pylint --output-format=colorized $(git ls-files '*.py')
+      - name: Run mypy
+        run: |
+          mypy --config-file pyproject.toml .
+      - name: Run isort
+        run: |
+          isort --settings-file pyproject.toml --check --diff --color .
+      - name: Run black
+        run: |
+          black --config pyproject.toml --check --diff --color .
