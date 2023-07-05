@@ -39,7 +39,7 @@ jobs:
         run: |
           mypy --config-file pyproject.toml .
   isort:
-    name: Isort ${{ matrix.python_version }}
+    name: Isort - Python ${{ matrix.python_version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -54,7 +54,7 @@ jobs:
         run: |
           isort --settings-file pyproject.toml --check --diff --color .
   black:
-    name: Black ${{ matrix.python_version }}
+    name: Black - Python ${{ matrix.python_version }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
