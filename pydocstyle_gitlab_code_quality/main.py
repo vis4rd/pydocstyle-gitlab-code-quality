@@ -1,11 +1,14 @@
 import json
+import logging as log
 import re
 from hashlib import md5
-from sys import stdin
 from typing import Generator, TextIO
 
+from .src.config.cli_parser import CliParser
+from .src.config.config import Config
 from .src.cq_types import Issue, LinesStructure, LocationStructure
-from .src.encoder import DataclassJSONEncoder
+from .src.utils.encoder import DataclassJSONEncoder
+from .src.utils.logger import initialize_logging
 
 
 def get_pydocstyle_output(output: TextIO) -> Generator[dict, None, None]:
@@ -16,47 +19,70 @@ def get_pydocstyle_output(output: TextIO) -> Generator[dict, None, None]:
     details_regex: str = r":\s(?P<details>.*)$"
 
     while True:
+        log.info("ITERATION START")
         try:
+            log.info("Reading brief line")
             brief_line: str = next(output)
+            log.info("Reading details line")
             details_line: str = next(output)
         except StopIteration:
             return
 
+        log.info("Checking if lines are empty")
+        if not brief_line or not details_line:
+            return
+
+        log.info("Stripping newlines")
         brief_line = brief_line.rstrip("\n")
         details_line = details_line.rstrip("\n")
 
+        log.info("Matching brief")
         match_brief = re.fullmatch(path_regex + line_regex + brief_regex, brief_line)
         if match_brief is None:
             continue
 
+        log.info("Matching details")
         match_details = re.fullmatch(error_code_regex + details_regex, details_line)
         if match_details is None:
             continue
 
+        log.info("Grouping errors")
         errors = match_brief.groupdict()
         errors.update(match_details.groupdict())
+
+        log.info("Yielding")
         yield errors
 
 
 def get_code_quality_issues() -> Generator:
-    output = get_pydocstyle_output(stdin)
+    log.info(f"Input sink = {Config.input_sink}")
+    output = get_pydocstyle_output(Config.input_sink)
+
+    severity_mapper: dict[int, str] = {0: "info", 1: "minor", 2: "major", 3: "critical"}
 
     for entry in output:
-        yield Issue(
-            type="issue",
-            check_name=entry["error_code"],
-            description=entry["details"],
-            categories=["Style"],
-            severity="info",
-            location=LocationStructure(
-                path=entry["path"],
-                lines=LinesStructure(begin=int(entry["line"])),
-            ),
-            fingerprint=md5("".join(entry.values()).encode("utf-8")).hexdigest(),
-        )
+        severity_index: int = Config.code_severities[entry["error_code"]]
+        if severity_index >= 0:
+            yield Issue(
+                type="issue",
+                check_name=entry["error_code"],
+                description=entry["details"],
+                categories=["Style"],
+                severity=severity_mapper[severity_index],
+                location=LocationStructure(
+                    path=entry["path"],
+                    lines=LinesStructure(begin=int(entry["line"])),
+                ),
+                fingerprint=md5("".join(entry.values()).encode("utf-8")).hexdigest(),
+            )
 
 
 def main() -> None:
+    initialize_logging()
+    CliParser.initialize()
+
     issues: list = list(get_code_quality_issues())
     json_output: str = json.dumps(issues, indent="\t", cls=DataclassJSONEncoder)
-    print(json_output)
+
+    for sink in Config.output_sinks:
+        sink.write(json_output)
