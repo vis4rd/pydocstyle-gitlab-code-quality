@@ -64,6 +64,18 @@ class CliParser:
             action="store_true",
             default=False,
         )
+        cls.parser.add_argument(
+            "--log-file",
+            help="Path to the file where the log will be saved.",
+            default=Config.log_file,
+            type=str,
+        )
+        cls.parser.add_argument(
+            "--enable-logging",
+            help="Enable logging to a file.",
+            action="store_true",
+            default=False,
+        )
 
     @classmethod
     def _update_config(cls) -> None:
@@ -71,6 +83,12 @@ class CliParser:
 
         if args.get("no_stdout", False):
             Config.output_sinks.pop(0)
+
+        if enable := args.get("enable_logging", False):
+            Config.enable_logging = enable
+
+        if filepath := args.get("log_file"):
+            Config.log_file = filepath
 
         if filepath := args.get("output", ""):
             file = open(filepath, "w", encoding="utf-8")  # pylint: disable=consider-using-with

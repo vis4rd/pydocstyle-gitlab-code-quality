@@ -1,19 +1,20 @@
 import logging
-from sys import stdout
 
 from ..config.config import Config
+
+# from sys import stdout
 
 
 def initialize_logging() -> None:
     root = logging.getLogger()
     root.setLevel(Config.log_level)
+    root.disabled = not Config.enable_logging
 
-    stdout_handler = logging.StreamHandler(stdout)
-    stdout_handler.setLevel(Config.log_level)
+    # stdout_handler = logging.StreamHandler(stdout)
+    # stdout_handler.setLevel(Config.log_level)
 
-    file_handler = logging.FileHandler("latest.log", mode="w", encoding="utf-8")
-    file_handler.setLevel(Config.log_level)
+    if Config.enable_logging:
+        file_handler = logging.FileHandler(Config.log_file, mode="w", encoding="utf-8")
+        file_handler.setLevel(Config.log_level)
 
-    # TODO(vis4rd): Add option to enable logging to stdout
-    # root.addHandler(stdout_handler)
-    root.addHandler(file_handler)
+        root.addHandler(file_handler)

@@ -19,38 +19,29 @@ def get_pydocstyle_output(output: TextIO) -> Generator[dict, None, None]:
     details_regex: str = r":\s(?P<details>.*)$"
 
     while True:
-        log.info("ITERATION START")
         try:
-            log.info("Reading brief line")
             brief_line: str = next(output)
-            log.info("Reading details line")
             details_line: str = next(output)
         except StopIteration:
             return
 
-        log.info("Checking if lines are empty")
         if not brief_line or not details_line:
             return
 
-        log.info("Stripping newlines")
         brief_line = brief_line.rstrip("\n")
         details_line = details_line.rstrip("\n")
 
-        log.info("Matching brief")
         match_brief = re.fullmatch(path_regex + line_regex + brief_regex, brief_line)
         if match_brief is None:
             continue
 
-        log.info("Matching details")
         match_details = re.fullmatch(error_code_regex + details_regex, details_line)
         if match_details is None:
             continue
 
-        log.info("Grouping errors")
         errors = match_brief.groupdict()
         errors.update(match_details.groupdict())
 
-        log.info("Yielding")
         yield errors
 
 
@@ -78,8 +69,8 @@ def get_code_quality_issues() -> Generator[Issue, None, None]:
 
 
 def main() -> None:
-    initialize_logging()
     CliParser.initialize()
+    initialize_logging()
 
     issues: List[Issue] = list(get_code_quality_issues())
     json_output: str = json.dumps(issues, indent="\t", cls=DataclassJSONEncoder)

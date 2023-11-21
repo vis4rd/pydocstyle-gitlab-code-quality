@@ -4,7 +4,8 @@ from typing import Dict, List, TextIO
 
 
 class Config:
-    verbose: bool = False
+    enable_logging: bool = False
+    log_file: str = "pgcq_latest.log"
     log_level: int = logging.INFO
 
     code_severities: Dict[str, int] = {}
