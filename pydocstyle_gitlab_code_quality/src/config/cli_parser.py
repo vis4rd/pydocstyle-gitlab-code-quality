@@ -84,11 +84,8 @@ class CliParser:
         if args.get("no_stdout", False):
             Config.output_sinks.pop(0)
 
-        if enable := args.get("enable_logging", False):
-            Config.enable_logging = enable
-
-        if filepath := args.get("log_file"):
-            Config.log_file = filepath
+        Config.enable_logging = args.get("enable_logging", False)
+        Config.log_file = args.get("log_file", Config.log_file)
 
         if filepath := args.get("output", ""):
             file = open(filepath, "w", encoding="utf-8")  # pylint: disable=consider-using-with
