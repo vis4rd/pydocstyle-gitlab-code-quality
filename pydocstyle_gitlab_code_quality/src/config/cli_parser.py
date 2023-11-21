@@ -73,11 +73,11 @@ class CliParser:
             Config.output_sinks.pop(0)
 
         if filepath := args.get("output", ""):
-            file = open(filepath, "w", encoding="utf-8")
+            file = open(filepath, "w", encoding="utf-8")  # pylint: disable=consider-using-with
             Config.output_sinks.append(file)
 
         if filepath := args.get("file", ""):
-            file = open(filepath, "r", encoding="utf-8")
+            file = open(filepath, "r", encoding="utf-8")  # pylint: disable=consider-using-with
             Config.input_sink = file
 
         if codes := args.get("minor", []):

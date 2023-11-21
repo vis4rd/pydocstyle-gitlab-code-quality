@@ -2,7 +2,7 @@ import json
 import logging as log
 import re
 from hashlib import md5
-from typing import Generator, TextIO
+from typing import Dict, Generator, List, TextIO
 
 from .src.config.cli_parser import CliParser
 from .src.config.config import Config
@@ -54,11 +54,11 @@ def get_pydocstyle_output(output: TextIO) -> Generator[dict, None, None]:
         yield errors
 
 
-def get_code_quality_issues() -> Generator:
+def get_code_quality_issues() -> Generator[Issue, None, None]:
     log.info(f"Input sink = {Config.input_sink}")
     output = get_pydocstyle_output(Config.input_sink)
 
-    severity_mapper: dict[int, str] = {0: "info", 1: "minor", 2: "major", 3: "critical"}
+    severity_mapper: Dict[int, str] = {0: "info", 1: "minor", 2: "major", 3: "critical"}
 
     for entry in output:
         severity_index: int = Config.code_severities[entry["error_code"]]
@@ -81,7 +81,7 @@ def main() -> None:
     initialize_logging()
     CliParser.initialize()
 
-    issues: list = list(get_code_quality_issues())
+    issues: List[Issue] = list(get_code_quality_issues())
     json_output: str = json.dumps(issues, indent="\t", cls=DataclassJSONEncoder)
 
     for sink in Config.output_sinks:
