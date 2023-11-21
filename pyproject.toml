@@ -54,6 +54,7 @@ disable = [
     "C0116",  # missing method docstring
     "R0902",  # too many instance attributes
     "R0903",  # too few public methods
-    "W0102"   # dangerous default value of an argument
+    "W0102",  # dangerous default value of an argument
+    "W1203"   # use lazy % formatting in logging functions
 ]
 ignore = ["__init__.py"]

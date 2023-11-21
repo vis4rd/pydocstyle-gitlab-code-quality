@@ -14,5 +14,6 @@ def initialize_logging() -> None:
     file_handler = logging.FileHandler("latest.log", mode="w", encoding="utf-8")
     file_handler.setLevel(Config.log_level)
 
+    # TODO(vis4rd): Add option to enable logging to stdout
     # root.addHandler(stdout_handler)
     root.addHandler(file_handler)
