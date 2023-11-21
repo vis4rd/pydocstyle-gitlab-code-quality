@@ -11,12 +11,10 @@ Generate [GitLab Code Quality report](https://docs.gitlab.com/ee/ci/testing/code
 ## Usage
 
 ```bash
-$ pydocstyle <file_path> | PYTHONHASHSEED=0 pydocstyle-gitlab-code-quality
+$ pydocstyle <file_path> | pydocstyle-gitlab-code-quality
 ```
 
 The output of this command is printed to `stdout` in JSON format, which can be used as Code Quality report.
-
-Environment variable `PYTHONHASHSEED=0` prevents randomized hashes, which are used by GitLab to determine changes between branches on merge request.
 
 ### Example `.gitlab-ci.yml` file
 

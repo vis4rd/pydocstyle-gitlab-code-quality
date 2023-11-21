@@ -1,12 +1,12 @@
 [project]
 name = "pydocstyle-gitlab-code-quality"
-version = "0.0.2"
+version = "0.0.3"
 authors = [
     { name = "Aleksander Kluczka", email = "aleksander.kluczka@gmail.com" },
 ]
 description = "Simple script to generate gitlab code quality report from output of pydocstyle."
 readme = "README.md"
-requires-python = ">=3.7"
+requires-python = ">=3.8"
 license = { text = "MIT" }
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -14,11 +14,11 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
 ]
 
 [project.urls]
