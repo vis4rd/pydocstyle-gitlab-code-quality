@@ -1,11 +1,11 @@
 import json
 import re
+from hashlib import md5
 from sys import stdin
 from typing import Generator, TextIO
 
 from .src.cq_types import Issue, LinesStructure, LocationStructure
 from .src.encoder import DataclassJSONEncoder
-from .src.hash import get_hash
 
 
 def get_pydocstyle_output(output: TextIO) -> Generator[dict, None, None]:
@@ -52,7 +52,7 @@ def get_code_quality_issues() -> Generator:
                 path=entry["path"],
                 lines=LinesStructure(begin=int(entry["line"])),
             ),
-            fingerprint=get_hash(tuple(entry.values())),
+            fingerprint=md5("".join(entry.values()).encode("utf-8")).hexdigest(),
         )
 
 

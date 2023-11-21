@@ -39,7 +39,7 @@ codequality:
   script:
     - pip install pydocstyle pydocstyle-gitlab-code-quality
     - pydocstyle program.py > pydocstyle-out.txt
-    - PYTHONHASHSEED=0 pydocstyle-gitlab-code-quality < pydocstyle-out.txt > codequality.json
+    - pydocstyle-gitlab-code-quality < pydocstyle-out.txt > codequality.json
   artifacts:
     when: always
     reports:
