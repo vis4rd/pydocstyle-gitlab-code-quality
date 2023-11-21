@@ -1,12 +1,8 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "pydocstyle-gitlab-code-quality"
-version = "0.0.1"
+version = "0.0.2"
 authors = [
-  { name = "Aleksander Kluczka", email = "aleksander.kluczka@gmail.com" },
+    { name = "Aleksander Kluczka", email = "aleksander.kluczka@gmail.com" },
 ]
 description = "Simple script to generate gitlab code quality report from output of pydocstyle."
 readme = "README.md"
@@ -28,6 +24,10 @@ classifiers = [
 [project.urls]
 "Homepage" = "https://github.com/vis4rd/pydocstyle-gitlab-code-quality"
 "Bug Tracker" = "https://github.com/vis4rd/pydocstyle-gitlab-code-quality/issues"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [project.scripts]
 pydocstyle-gitlab-code-quality = "pydocstyle_gitlab_code_quality:main"
