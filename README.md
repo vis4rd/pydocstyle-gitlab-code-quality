@@ -11,10 +11,34 @@ Generate [GitLab Code Quality report](https://docs.gitlab.com/ee/ci/testing/code
 ## Usage
 
 ```bash
-$ pydocstyle <file_path> | pydocstyle-gitlab-code-quality
+# passing pydocstyle output through stdin (output printed to stdout)
+pydocstyle main.py | pydocstyle-gitlab-code-quality > codequality.json
+# or
+pydocstyle-gitlab-code-quality < pydocstyle_out.txt > codequality.json
+
+# using CLI flags (output printed directly to a file)
+pydocstyle-gitlab-code-quality --input pydocstyle_out.txt --output codequality.json
 ```
 
-The output of this command is printed to `stdout` in JSON format, which can be used as Code Quality report.
+## CLI configuration
+
+`pydocstyle-gitlab-code-quality` allows for the following CLI arguments:
+
+| flag                         | example                 | default           | description                                                   |
+| ---------------------------- | ----------------------- | ----------------- | ------------------------------------------------------------- |
+| `--minor <CODE>...`          | `--minor=D100,D101`     | *empty*           | Error codes to be displayed with MINOR severity.              |
+| `--major <CODE>...`          | `--major=D102,D103`     | *empty*           | Error codes to be displayed with MAJOR severity.              |
+| `--critical <CODE>...`       | `--critical=D104,D105`  | *empty*           | Error codes to be displayed with CRITICAL severity.           |
+| `-i, --ignore <CODE>...`     | `--ignore=D106,D107`    | *empty*           | Error codes to be omitted from Code Quality report.           |
+| `-f, --file, --input <FILE>` | `-f pydocstyle_out.txt` | *empty*           | Path to the file with pydocstyle output.                      |
+| `-o, --output <FILE>`        | `-o codequality.json`   | *empty*           | Path to the file where the Code Quality report will be saved. |
+| `--no-stdout`                | N/A                     | `False`           | Do not print the Code Quality report to stdout.               |
+| `--log-file <FILE>`          | `--log-file latest.log` | `pgcq_latest.log` | Path to the file where the log will be saved.                 |
+| `--enable-logging`           | N/A                     | `False`           | Enable logging to a file. For debugging purposes only.        |
+
+By default, all error codes are reported with INFO severity.
+
+In case the same error code from `pydocstyle` has been provided to many severity options, the highest severity level takes precedence.
 
 ### Example `.gitlab-ci.yml` file
 
@@ -37,7 +61,7 @@ codequality:
   script:
     - pip install pydocstyle pydocstyle-gitlab-code-quality
     - pydocstyle program.py > pydocstyle-out.txt
-    - pydocstyle-gitlab-code-quality < pydocstyle-out.txt > codequality.json
+    - pydocstyle-gitlab-code-quality --input pydocstyle-out.txt --output codequality.json
   artifacts:
     when: always
     reports:

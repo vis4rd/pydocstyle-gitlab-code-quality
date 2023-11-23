@@ -9,6 +9,11 @@
         "editor.defaultFormatter": "ms-python.black-formatter",
         "editor.formatOnSave": true,
     },
+    "[markdown]": {
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one",
+        "editor.formatOnSave": true,
+        "editor.wordWrap": "off",
+    },
     "files.eol": "\n",
     "files.trimTrailingWhitespace": true,
     "files.insertFinalNewline": true,
