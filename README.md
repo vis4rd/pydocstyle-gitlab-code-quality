@@ -1,3 +1,4 @@
+![Deprecated](https://img.shields.io/badge/deprecated-red?style=flat-square)
 ![GitLab CI](https://img.shields.io/badge/GitLab%20CI-%23181717.svg?style=flat-square&logo=gitlab&logoColor=white)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pydocstyle-gitlab-code-quality?style=flat-square)
 [![PyPI - License](https://img.shields.io/pypi/l/pydocstyle-gitlab-code-quality?style=flat-square)](LICENSE.md)
@@ -7,6 +8,11 @@
 # pydocstyle-gitlab-code-quality
 
 Generate [GitLab Code Quality report](https://docs.gitlab.com/ee/ci/testing/code_quality.html) from an output of [pydocstyle](https://github.com/PyCQA/pydocstyle).
+
+## Deprecation notice!
+
+> [!IMPORTANT]
+> The `pydocstyle-gitlab-code-quality` is no longer actively maintained, because `pydocstyle` has been officialy deprecated in favor of [Ruff](https://github.com/astral-sh/ruff).
 
 ## Usage
 
